@@ -4,7 +4,7 @@
 *.pyc
 __pycache__
 db.sqlite3
-
+.vscode
 redditcloneapi-project/vscode/*
 account/migrations
 posts/__pycache__/*
