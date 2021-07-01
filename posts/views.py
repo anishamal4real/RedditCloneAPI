@@ -33,4 +33,16 @@ class VoteCreate(generics.CreateAPIView,mixins.DestroyModelMixin):
         else:
             raise ValidationError("You have not voted for this....")
 
+class PostRetrieveDestroy(generics.RetrieveDestroyAPIView):
+    queryset=Post.objects.all()
+    serializer_class=PostSerializer
+    permission_classes=[permissions.IsAuthenticatedOrReadOnly]
+    def delete(self,request,*args,**kwargs):
+        post=Post.objects.filter(pk=kwargs['pk'],poster=self.request.user)
+        if post.exists():
+            self.destroy(request, *args,**kwargs)
+            return Response(status=status.HTTP_204_NO_CONTENT)
+        else:
+            raise ValidationError ("This is not your post, and You can't delete bro......")
+
 
